@@ -1,0 +1,15 @@
+This directry contains the header files for the metakanren system:
+
+- list_processing.hpp :: Miniman list processing functionality on
+     which to implement the relational core.   
+
+- core.hpp :: The core of the relational system modeled on
+              microKanren.  
+
+- types.hpp :: A small amount of functionality for working with
+               types. 
+
+- user.hpp :: User level functionality.
+
+- microkanren.hpp :: Entry point.
+
