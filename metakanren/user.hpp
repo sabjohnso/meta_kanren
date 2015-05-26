@@ -206,16 +206,19 @@ namespace metakanren
     struct take_all< lg >
     {
       using f = typename pull< lg >::type;
-      using type = typename std::conditional<
-	null< f >::value,
-	nil,
-	cons<
-	  typename car< f >::type,
-	  typename take_all< typename cdr< f >::type >::type
-	  >
-	>::type;
+      using type = typename std::conditional< null< f >::value,
+					      nil,
+					      cons< typename car< f >::type,
+						    typename take_all< typename cdr< f >::type >::type
+						    >
+					      >::type;
     };
 
+    template<>
+    struct take_all< nil >
+    {
+      using type = nil;
+    };
     
     template< typename ... >
     struct conde;
@@ -240,6 +243,7 @@ namespace metakanren
     template< typename v, typename s  >
     struct walk_star< v, s >
     {
+
       using u = typename walk< v, s >::type;
 
       template< typename ... >

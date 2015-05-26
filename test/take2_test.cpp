@@ -1,5 +1,5 @@
 /**
-   @file test/a_and_b_test.cpp
+   @file test/take2_test.cpp
 
    @brief A simple unification test.
    
@@ -27,7 +27,7 @@
    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
- 
+
 //
 // ... Standard header files
 //
@@ -39,30 +39,27 @@
 //
 #include <metakanren/metakanren.hpp>
 
-
-
-
 using namespace metakanren;
 
-template< typename ... >
+template <typename ... >
 struct f;
 
 template< typename a >
 struct f< a >
 {
   using type = typename equate< a, datum< size_t, 7 > >::type;
-    
 };
 
 template< typename ... >
 struct g;
 
-template< typename b >
+template< typename b  >
 struct g< b >
 {
   using type = typename disj<
     typename equate< b, datum< size_t, 5 > >::type,
-    typename equate< b, datum< size_t, 6 > >::type >::type;
+    typename equate< b, datum< size_t, 6 > >::type
+    >::type;
 };
 
 using a_and_b = typename conj<
@@ -70,49 +67,20 @@ using a_and_b = typename conj<
   typename call_fresh< procedure< g > >::type
   >::type;
 
- using result = typename  apply< a_and_b, empty_state >::type;
+using two = take< 2, typename apply< a_and_b, empty_state >::type >::type;
 
-
-
-  
-
-using sol0 = typename caar< result >::type;
-using nxt0 = typename cdar< result >::type;
-static_assert( is_list< sol0 >::value, "" );
-static_assert( is_assoc< sol0 >::value, "" );
-static_assert( std::is_same< sol0,
-	       typename list< cons<var<1>, datum<size_t,5>>,
-	                      cons<var<0>, datum<size_t,7>> >::type >::value, "");
-static_assert( nxt0::value == 2, "" );
-
-
-using sol1 = typename caadr< result >::type;
-using nxt1 = typename cdadr< result >::type;
-
-
-
+static_assert( std::is_same< typename car< two >::type,
+	       cons<cons<cons<var<1>,datum<size_t,5>>,cons<cons<var<0>,datum<size_t,7>>,nil>>,datum<size_t,2>>
+	       >::value, "" );
+static_assert( std::is_same< typename cadr< two >::type,
+	       cons<cons<cons<var<1>,datum<size_t,6>>,cons<cons<var<0>,datum<size_t,7>>,nil>>,datum<size_t,2>>
+	       >::value, "" );
 
 int
-main( int argc, char** argv )
+main()
 {
-  using namespace metakanren;
-
-  std::cout << Type< result >() << std::endl;
-  std::cout << Type< typename car< result >::type >() << std::endl;
-
-
-  std::cout << std::endl << std::endl
-	    << "Solution 0" << std::endl
-	    << "**********" << std::endl
-	    << Type< sol0 >() << std::endl;
-
-  std::cout << std::endl << std::endl
-	    << "Solution 1" << std::endl
-	    << "**********" << std::endl
-	    << Type< sol1 >() << std::endl;
- 
-
-
-  
+  std::cout << Type< two >() << std::endl;
+  std::cout << Type< car< two >::type >() << std::endl;
+  std::cout << Type< cadr< two >::type >() << std::endl;
   return 0;
 }

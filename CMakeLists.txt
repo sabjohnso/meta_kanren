@@ -15,14 +15,15 @@ if( BUILD_TESTS )
     add_test( ${name} ${name}_test )
   endmacro()
 
-  add_simple_test( easy )
-  add_simple_test( cons )
-  add_simple_test( and  )
-  add_simple_test( assp )
-  add_simple_test( unit )
-  add_simple_test( five )
-  add_simple_test( a_and_b )
-
+  add_simple_test( easy     )
+  add_simple_test( cons     )
+  add_simple_test( and      )
+  add_simple_test( assp     )
+  add_simple_test( unit     )
+  add_simple_test( five     )
+  add_simple_test( a_and_b  )
+  add_simple_test( take2    )
+  add_simple_test( take_all )
   
 endif()
 
