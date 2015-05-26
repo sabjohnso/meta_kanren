@@ -1,0 +1,23 @@
+#+TITLE:METAKANREN
+
+METAKANREN is a relational programming system operating on types in
+the C++ template system.  The intent of METAKANREN is to provide a
+proof-of-concept relational style of type deduction on top of the
+existing functional type deduction to facilitate new styles of
+template meta programming.
+
+
+METAKANREN is based on μKanren [fn:Mermann2012], which is a minimal
+functional core for relational programming.  The system is implemented
+with a small set of list processing functionality to make the analogy
+between μKanren and the core of the METAKANREN  system as strong as
+possible.
+
+
+
+
+[fn:Hermann2013]
+Jason Hemann and Daniel P. Friedman. ~microKanren: A Minimal
+Functional Core for Relational Programming.~  In Proceedings of the
+2013 Workshop on Scheme and Functional Programming (Scheme '13),
+Alexandria, VA, 2013.  
