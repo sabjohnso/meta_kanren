@@ -14,12 +14,14 @@ possible.
 
 * Example 1
   #+BEGIN_SRC c++
+    #include <iostream>
     #include <metakanren/metakanren.hpp>
 
     using namespace metakanren;
 
     template< typename ... >
     struct g;
+
 
     template< typename t >
     struct g< t >
@@ -32,9 +34,12 @@ possible.
       empty_state
     >::type;
 
-    using a = typename car< result >::type;
-    using b = typename cdr< result >::type;
-
+    int
+    main( )
+    {
+      std::cout << Type< result >{} << std::endl;
+      return 0;
+    }
   #+END_SRC 
 
 
