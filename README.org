@@ -14,22 +14,26 @@ possible.
 
 * Example 1
   #+BEGIN_SRC c++
-#include <metakanren/metakanren.hpp>
+    #include <metakanren/metakanren.hpp>
 
-using namespace metakanren;
+    using namespace metakanren;
 
-template< typename ... >
-struct g;
+    template< typename ... >
+    struct g;
 
-template< typename t >
-struct g< t >
-{
-  using type = typename equate< t, datum< size_t, 5 > >::type;
-};
+    template< typename t >
+    struct g< t >
+    {
+      using type = typename equate< t, datum< size_t, 5 > >::type;
+    };
 
-using result  = typename apply< typename call_fresh< procedure< g > >::type, empty_state >::type;
-using a = typename car< result >::type;
-using b = typename cdr< result >::type;
+    using result  = typename apply<
+      typename call_fresh< procedure< g > >::type,
+      empty_state
+    >::type;
+
+    using a = typename car< result >::type;
+    using b = typename cdr< result >::type;
 
   #+END_SRC 
 
