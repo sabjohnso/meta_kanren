@@ -272,7 +272,6 @@ namespace metakanren
       
     };
 
-
     
   } // end of namespace user
 } // end of namespace metakanren

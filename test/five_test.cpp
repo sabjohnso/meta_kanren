@@ -42,8 +42,6 @@
 
 using namespace metakanren;
 
-
-
 template< typename ... >
 struct g;
 

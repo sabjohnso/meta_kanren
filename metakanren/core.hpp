@@ -48,11 +48,12 @@ namespace metakanren
   namespace core
   {
 
-  
     using namespace metakanren::list_processing;
     using namespace metakanren::types;
 
-  
+    
+    /** Merge streams.
+     */
     template< typename ... >
     struct mplus;
 
@@ -71,7 +72,6 @@ namespace metakanren
     };
 
   
-  
     template< typename x0, typename x1, typename y >
     struct mplus< cons< x0, x1 >, y >
     {
@@ -87,7 +87,9 @@ namespace metakanren
 
   
   
-  
+
+    /** Lift a type into a stream.
+     */
     template< typename ... >
     struct unit;
 
@@ -163,11 +165,13 @@ namespace metakanren
   
 
     template< typename ... >
-    struct extend_state;
+    struct extend_s;
 
     template< typename x, typename v, typename s >
-    struct extend_state< x, v, s >{ using type =  cons< cons< x, v >, s >; };
+    struct extend_s< x, v, s >{ using type =  cons< cons< x, v >, s >; };
 
+    /** Search for a variables value in a substitution.
+     */
     template< typename ... > struct walk;
 
     template< typename u, typename s >
@@ -206,7 +210,23 @@ namespace metakanren
 
 
 
-  
+    /** Unification operator.
+	The language terms are defined by variables (var< i>), types
+	that are deemed identical through C++. and cons' of the 
+	preceding.
+
+	If two terms walk to the same variable, the original
+	substitution is returned unchanged.  When one of the two terms
+	walks to a variable, the substitution is extended, binding the
+	variable to which that term walks. If both terms walk to
+	pairs, the cars and then cdrs are unified recursively,
+	succeeding if unification succeeds in the one and then the
+	other. Finally, non variable, non-pair terms unify if they are
+	identical under eqv?, and unification fails otherwise.  The
+	definition of unify and the rest of the metakanren sysem
+	should be orthogonal.
+	
+     */
     template< typename ... >
     struct unify;
 
@@ -229,13 +249,13 @@ namespace metakanren
       template< size_t i, typename vy >
       struct aux< var< i >, vy >
       {
-	using type = typename extend_state< var< i >, vy, s >::type;
+	using type = typename extend_s< var< i >, vy, s >::type;
       };
 
       template< typename uy, size_t j >
       struct aux< uy, var< j > >
       {
-	using type = typename extend_state< var< j >, uy, s >::type;
+	using type = typename extend_s< var< j >, uy, s >::type;
       };
 
       template< typename u0, typename u1, typename v0, typename v1 >
@@ -261,7 +281,12 @@ namespace metakanren
     
     };
 
-  
+
+    /** A basic goal constructor for the unification of two terms.
+	If the two terms unify, the goal succeeds, and a stream
+	comprised of a single state is returned.  Otherwise, the empty 
+	stream is returned: nil;
+     */
     template< typename ... >
     struct equate;
 
@@ -301,7 +326,8 @@ namespace metakanren
 
 
 
-  
+    /**
+     */
     template< typename ... >
     struct call_fresh;
   
